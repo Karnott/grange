@@ -28,14 +28,18 @@ func (r RangeTime) Intersection(r1 RangeTime) *RangeTime {
 	return &intersectionRange
 }
 
+func (r RangeTime) IsEmpty() bool {
+	return r[0].Value.Equal(r[1].Value) && (r[0].IsExclusive || r[1].IsExclusive)
+}
+
 func (dateRange RangeTime) formatIsZero() RangeTime {
 	start := dateRange[0]
 	end := dateRange[1]
-	if start.IsZero() {
-		start = leftInfinityDate
+	if start.Value.IsZero() {
+		start.Value = leftInfinityDate
 	}
-	if end.IsZero() {
-		end = rightInfinityDate
+	if end.Value.IsZero() {
+		end.Value = rightInfinityDate
 	}
 	return RangeTime{
 		start,
@@ -45,9 +49,11 @@ func (dateRange RangeTime) formatIsZero() RangeTime {
 
 func (dateRange RangeTime) formatToNumberRange() RangeNumber[int64] {
 	dateRangeFormatted := dateRange.formatIsZero()
+	start := dateRangeFormatted[0]
+	end := dateRangeFormatted[1]
 	return RangeNumber[int64]{
-		dateRangeFormatted[0].UnixMilli(),
-		dateRangeFormatted[1].UnixMilli(),
+		{Value: start.Value.UnixMilli(), IsExclusive: start.IsExclusive},
+		{Value: end.Value.UnixMilli(), IsExclusive: end.IsExclusive},
 	}
 }
 
@@ -55,11 +61,13 @@ func formatNumberRangeToDateRange(numberRange RangeNumber[int64]) RangeTime {
 	start := numberRange[0]
 	end := numberRange[1]
 	var timeRange RangeTime
-	if start != leftInfinityTimestamp {
-		timeRange[0] = time.UnixMilli(start)
+	timeRange[0].IsExclusive = start.IsExclusive
+	timeRange[1].IsExclusive = end.IsExclusive
+	if start.Value != leftInfinityTimestamp {
+		timeRange[0].Value = time.UnixMilli(start.Value)
 	}
-	if end != rightInfinityTimestamp {
-		timeRange[1] = time.UnixMilli(end)
+	if end.Value != rightInfinityTimestamp {
+		timeRange[1].Value = time.UnixMilli(end.Value)
 	}
 	return timeRange
 }
