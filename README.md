@@ -28,8 +28,8 @@ You need to use Golang 1.18 or newer version
 # TODO
 
 - [x] range intersection
-- [] range union
-- [] range difference
-- [] range contain
-- [] range before
-- [] range after
+- [ ] range union
+- [ ] range difference
+- [ ] range contain
+- [ ] range before
+- [ ] range after
