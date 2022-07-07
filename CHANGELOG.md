@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://www.github.com/Karnott/grange/compare/v1.0.0...v1.0.1) (2022-07-07)
+
+
+### Bug Fixes
+
+* **readme:** fix readme list syntax ([e6179df](https://www.github.com/Karnott/grange/commit/e6179dfa7f1fc1a83c1757345aa307f8cab776af))
+
 ## 1.0.0 (2022-07-07)
 
 
