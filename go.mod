@@ -1,4 +1,4 @@
-module github.com/karnott/script-migrate-to-parent-device-session-id
+module github.com/karnott/grange
 
 go 1.18
 
