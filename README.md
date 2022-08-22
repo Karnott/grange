@@ -14,11 +14,11 @@ go get github.com/karnott/grange
 import github.com/karnott/grange
 
 func main() {
-  range1 := grange.RangeNumber[int]{1, 10}
-  range2 := grange.RangeNumber[int]{5, 20}
+  range1 := grange.NumberRange[int]{1, 10}
+  range2 := grange.NumberRange[int]{5, 20}
 
   rangeIntersection := range.Intersection(range1, range2) 
-  // rangeIntersection == [2]RangeNumber[int]{5, 10}
+  // rangeIntersection == [2]NumberRange[int]{5, 10}
 }
 ```
 # Compatibility
