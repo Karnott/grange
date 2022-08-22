@@ -2,7 +2,7 @@ package grange
 
 // return [start, end] intersection range between 2 ranges
 // return nil if no intersection
-func intersection[K Number, L RangeNumber[K]](r L, r1 L) *RangeNumber[K] {
+func intersection[K Number, L NumberRange[K]](r L, r1 L) *NumberRange[K] {
 	// if one bound with some value IsExclusive
 	// 		=> all the other bound with the same value must be exclusive
 	//			 to ensure to return intersection range with exclusive to `true` for this value
@@ -26,7 +26,7 @@ func intersection[K Number, L RangeNumber[K]](r L, r1 L) *RangeNumber[K] {
 	if start1.Value < start2.Value {
 		if end1.Value > end2.Value {
 			return formatEmptyExclusiveRange(
-				RangeNumber[K]{
+				NumberRange[K]{
 					start2,
 					end2,
 				},
@@ -34,7 +34,7 @@ func intersection[K Number, L RangeNumber[K]](r L, r1 L) *RangeNumber[K] {
 		}
 		if end1.Value <= end2.Value {
 			return formatEmptyExclusiveRange(
-				RangeNumber[K]{
+				NumberRange[K]{
 					start2,
 					end1,
 				},
@@ -44,7 +44,7 @@ func intersection[K Number, L RangeNumber[K]](r L, r1 L) *RangeNumber[K] {
 	if start2.Value <= start1.Value {
 		if end2.Value > end1.Value {
 			return formatEmptyExclusiveRange(
-				RangeNumber[K]{
+				NumberRange[K]{
 					start1,
 					end1,
 				},
@@ -53,7 +53,7 @@ func intersection[K Number, L RangeNumber[K]](r L, r1 L) *RangeNumber[K] {
 
 		if end2.Value <= end1.Value {
 			return formatEmptyExclusiveRange(
-				RangeNumber[K]{
+				NumberRange[K]{
 					start1,
 					end2,
 				},

@@ -8,14 +8,14 @@ import (
 
 func TestInclusiveIntersectionForNumberRange(t *testing.T) {
 	t.Run("expect intersection", func(t *testing.T) {
-		range1 := RangeNumber[int]{
+		range1 := NumberRange[int]{
 			{Value: 0}, {Value: 20},
 		}
-		range2 := RangeNumber[int]{
+		range2 := NumberRange[int]{
 			{Value: -10}, {Value: 10},
 		}
 		intersectionRange := range1.Intersection(range2)
-		expectedIntersectionRange := RangeNumber[int]{
+		expectedIntersectionRange := NumberRange[int]{
 			range1[0],
 			range2[1],
 		}
@@ -28,10 +28,10 @@ func TestInclusiveIntersectionForNumberRange(t *testing.T) {
 	})
 
 	t.Run("expect intersection", func(t *testing.T) {
-		range1 := RangeNumber[int]{
+		range1 := NumberRange[int]{
 			{Value: 0}, {Value: 20},
 		}
-		range2 := RangeNumber[int]{
+		range2 := NumberRange[int]{
 			{Value: -20},
 			{Value: range1[0].Value - 1},
 		}
@@ -45,14 +45,14 @@ func TestInclusiveIntersectionForNumberRange(t *testing.T) {
 
 func TestExclusiveIntersectionForNumberRange(t *testing.T) {
 	t.Run("expect intersection with exclusive end bound", func(t *testing.T) {
-		range1 := RangeNumber[int]{
+		range1 := NumberRange[int]{
 			{Value: 0}, {Value: 20},
 		}
-		range2 := RangeNumber[int]{
+		range2 := NumberRange[int]{
 			{Value: -10}, {Value: 10, IsExclusive: true},
 		}
 		intersectionRange := range1.Intersection(range2)
-		expectedIntersectionRange := RangeNumber[int]{
+		expectedIntersectionRange := NumberRange[int]{
 			range1[0],
 			range2[1],
 		}
@@ -69,14 +69,14 @@ func TestExclusiveIntersectionForNumberRange(t *testing.T) {
 	})
 
 	t.Run("expect intersection with exclusive start bound", func(t *testing.T) {
-		range1 := RangeNumber[int]{
+		range1 := NumberRange[int]{
 			{Value: 0, IsExclusive: true}, {Value: 20},
 		}
-		range2 := RangeNumber[int]{
+		range2 := NumberRange[int]{
 			{Value: -10}, {Value: 10},
 		}
 		intersectionRange := range1.Intersection(range2)
-		expectedIntersectionRange := RangeNumber[int]{
+		expectedIntersectionRange := NumberRange[int]{
 			range1[0],
 			range2[1],
 		}
@@ -93,10 +93,10 @@ func TestExclusiveIntersectionForNumberRange(t *testing.T) {
 	})
 
 	t.Run("expect no intersection because of exclusive intersection", func(t *testing.T) {
-		range1 := RangeNumber[int]{
+		range1 := NumberRange[int]{
 			{Value: 0, IsExclusive: true}, {Value: 20},
 		}
-		range2 := RangeNumber[int]{
+		range2 := NumberRange[int]{
 			{Value: -10}, {Value: 0},
 		}
 		intersectionRange := range1.Intersection(range2)
