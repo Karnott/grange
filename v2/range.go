@@ -21,7 +21,7 @@ type RangeValue[K NumberTime] struct {
 type Range[K NumberTime] [2]RangeValue[K]
 
 type RangeTypes interface {
-	RangeNumber[int] | RangeNumber[int16] | RangeNumber[int32] | RangeNumber[int64] | RangeNumber[float32] | RangeNumber[float64] | RangeTime
+	NumberRange[int] | NumberRange[int16] | NumberRange[int32] | NumberRange[int64] | NumberRange[float32] | NumberRange[float64] | DateTimeRange
 }
 
 type RangeInterface[K RangeTypes] interface {
