@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/Karnott/grange/compare/v1.0.1...v1.1.0) (2022-08-22)
+
+
+### Features
+
+* **range:** create func ToPostgresString to format range values for postgres ([8bf05cc](https://www.github.com/Karnott/grange/commit/8bf05cc9bc6a9eab75de7f0106fd2942c45995eb))
+
 ### [1.0.1](https://www.github.com/Karnott/grange/compare/v1.0.0...v1.0.1) (2022-07-07)
 
 
