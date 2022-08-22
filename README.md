@@ -5,10 +5,14 @@ Grange is range library to manipulate date and number range
 # Install
 
 ```bash
+# v1
 go get github.com/karnott/grange
+
+# v2
+go get github.com/karnott/grange/v2
 ```
 
-# How to use it
+# [V2] How to use it (check v1 package for correct struct name)
 
 ```go
 import github.com/karnott/grange
