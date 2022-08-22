@@ -7,17 +7,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIntersectionForRangeInterfaceWithRangeTimeType(t *testing.T) {
-	var range1 RangeTime = RangeTime{
+func TestIntersectionForRangeInterfaceWithDateTimeRangeType(t *testing.T) {
+	var range1 DateTimeRange = DateTimeRange{
 		{Value: time.Now().Add(-10 * time.Hour)},
 		{Value: time.Now().Add(-5 * time.Hour)},
 	}
-	range2 := RangeTime{
+	range2 := DateTimeRange{
 		{Value: time.Now().Add(-15 * time.Hour)},
 		{Value: time.Now().Add(-7 * time.Hour)},
 	}
-	intersectionRange := Intersection[RangeTime](range1, range2)
-	expectedIntersectionRange := RangeTime{
+	intersectionRange := Intersection[DateTimeRange](range1, range2)
+	expectedIntersectionRange := DateTimeRange{
 		range1[0],
 		range2[1],
 	}
@@ -26,14 +26,14 @@ func TestIntersectionForRangeInterfaceWithRangeTimeType(t *testing.T) {
 }
 
 func TestIntersectionForRangeInterfaceWithNumberType(t *testing.T) {
-	range1 := RangeNumber[int]{
+	range1 := NumberRange[int]{
 		{Value: 0}, {Value: 20},
 	}
-	range2 := RangeNumber[int]{
+	range2 := NumberRange[int]{
 		{Value: -10}, {Value: 10},
 	}
-	intersectionRange := Intersection[RangeNumber[int]](range1, range2)
-	expectedIntersectionRange := RangeNumber[int]{
+	intersectionRange := Intersection[NumberRange[int]](range1, range2)
+	expectedIntersectionRange := NumberRange[int]{
 		range1[0],
 		range2[1],
 	}

@@ -9,16 +9,16 @@ import (
 
 func TestInclusiveIntersectionForTimeRange(t *testing.T) {
 	t.Run("expect intersection", func(t *testing.T) {
-		range1 := RangeTime{
+		range1 := DateTimeRange{
 			{Value: time.Now().Add(-10 * time.Hour)},
 			{Value: time.Now().Add(-5 * time.Hour)},
 		}
-		range2 := RangeTime{
+		range2 := DateTimeRange{
 			{Value: time.Now().Add(-15 * time.Hour)},
 			{Value: time.Now().Add(-7 * time.Hour)},
 		}
 		intersectionRange := range1.Intersection(range2)
-		expectedIntersectionRange := RangeTime{
+		expectedIntersectionRange := DateTimeRange{
 			range1[0],
 			range2[1],
 		}
@@ -32,11 +32,11 @@ func TestInclusiveIntersectionForTimeRange(t *testing.T) {
 	})
 
 	t.Run("expect no intersection", func(t *testing.T) {
-		range1 := RangeTime{
+		range1 := DateTimeRange{
 			{Value: time.Now().Add(-10 * time.Hour)},
 			{Value: time.Now().Add(-5 * time.Hour)},
 		}
-		range2 := RangeTime{
+		range2 := DateTimeRange{
 			{Value: time.Now().Add(-15 * time.Hour)},
 			{Value: range1[0].Value.Add(-time.Second)},
 		}
@@ -45,16 +45,16 @@ func TestInclusiveIntersectionForTimeRange(t *testing.T) {
 	})
 
 	t.Run("expect intersection with infinity value", func(t *testing.T) {
-		range1 := RangeTime{
+		range1 := DateTimeRange{
 			{Value: time.Now().Add(-10 * time.Hour)},
 			{Value: time.Now().Add(-5 * time.Hour)},
 		}
-		range2 := RangeTime{
+		range2 := DateTimeRange{
 			{},
 			range1[1],
 		}
 		intersectionRange := range1.Intersection(range2)
-		expectedIntersectionRange := RangeTime{
+		expectedIntersectionRange := DateTimeRange{
 			range1[0],
 			range1[1],
 		}
@@ -70,11 +70,11 @@ func TestInclusiveIntersectionForTimeRange(t *testing.T) {
 
 func TestExclusiveIntersectionForTimeRange(t *testing.T) {
 	t.Run("expect no intersection with range with same bound value with both exclusive", func(t *testing.T) {
-		range1 := RangeTime{
+		range1 := DateTimeRange{
 			{Value: time.Now().Add(-10 * time.Hour)},
 			{Value: time.Now().Add(-5 * time.Hour), IsExclusive: true},
 		}
-		range2 := RangeTime{
+		range2 := DateTimeRange{
 			range1[1],
 			{Value: time.Now().Add(-3 * time.Hour)},
 		}
@@ -84,15 +84,15 @@ func TestExclusiveIntersectionForTimeRange(t *testing.T) {
 
 	t.Run("expect return IsExclusive to true for intersection with range with same end bound value but different IsExclusive", func(t *testing.T) {
 		// expect keep IsExclusive value
-		range1 := RangeTime{
+		range1 := DateTimeRange{
 			{Value: time.Now().Add(-10 * time.Hour)},
 			{Value: time.Now().Add(-5 * time.Hour), IsExclusive: true},
 		}
-		range2 := RangeTime{
+		range2 := DateTimeRange{
 			{Value: time.Now().Add(-7 * time.Hour), IsExclusive: true},
 			{Value: range1[1].Value},
 		}
-		expectedIntersectionRange := RangeTime{
+		expectedIntersectionRange := DateTimeRange{
 			range2[0],
 			range1[1],
 		}
@@ -118,15 +118,15 @@ func TestExclusiveIntersectionForTimeRange(t *testing.T) {
 
 	t.Run("expect return exclusive range with range with same start/end bound value but different IsExclusive", func(t *testing.T) {
 		// expect keep IsExclusive value
-		range1 := RangeTime{
+		range1 := DateTimeRange{
 			{Value: time.Now().Add(-10 * time.Hour), IsExclusive: true},
 			{Value: time.Now().Add(-5 * time.Hour)},
 		}
-		range2 := RangeTime{
+		range2 := DateTimeRange{
 			{Value: range1[0].Value},
 			{Value: range1[1].Value, IsExclusive: true},
 		}
-		expectedIntersectionRange := RangeTime{
+		expectedIntersectionRange := DateTimeRange{
 			range1[0],
 			range2[1],
 		}

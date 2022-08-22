@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type RangeTime Range[time.Time]
+type DateTimeRange Range[time.Time]
 
 var (
 	leftInfinityTimestamp  = int64(math.MinInt64)
@@ -14,7 +14,7 @@ var (
 	rightInfinityDate      = time.UnixMilli(rightInfinityTimestamp)
 )
 
-func (r RangeTime) ToPostgresString() (string, string, string) {
+func (r DateTimeRange) ToPostgresString() (string, string, string) {
 	fromDateString := "-infinity"
 	toDateString := "infinity"
 	fromDate := r[0]
@@ -39,7 +39,7 @@ func (r RangeTime) ToPostgresString() (string, string, string) {
 
 // date.IsZero() is considered as `-infinty` for fromDate & `infinity` for toDate
 // infinity var are defined as leftInfinityDate and rightInfinityDate
-func (r RangeTime) Intersection(r1 RangeTime) *RangeTime {
+func (r DateTimeRange) Intersection(r1 DateTimeRange) *DateTimeRange {
 	var intersectionResult = intersection(
 		r.formatToNumberRange(),
 		r1.formatToNumberRange(),
@@ -51,11 +51,11 @@ func (r RangeTime) Intersection(r1 RangeTime) *RangeTime {
 	return &intersectionRange
 }
 
-func (r RangeTime) IsEmpty() bool {
+func (r DateTimeRange) IsEmpty() bool {
 	return r[0].Value.Equal(r[1].Value) && (r[0].IsExclusive || r[1].IsExclusive)
 }
 
-func (dateRange RangeTime) formatIsZero() RangeTime {
+func (dateRange DateTimeRange) formatIsZero() DateTimeRange {
 	start := dateRange[0]
 	end := dateRange[1]
 	if start.Value.IsZero() {
@@ -64,33 +64,33 @@ func (dateRange RangeTime) formatIsZero() RangeTime {
 	if end.Value.IsZero() {
 		end.Value = rightInfinityDate
 	}
-	return RangeTime{
+	return DateTimeRange{
 		start,
 		end,
 	}
 }
 
-func (dateRange RangeTime) formatToNumberRange() RangeNumber[int64] {
+func (dateRange DateTimeRange) formatToNumberRange() NumberRange[int64] {
 	dateRangeFormatted := dateRange.formatIsZero()
 	start := dateRangeFormatted[0]
 	end := dateRangeFormatted[1]
-	return RangeNumber[int64]{
+	return NumberRange[int64]{
 		{Value: start.Value.UnixMilli(), IsExclusive: start.IsExclusive},
 		{Value: end.Value.UnixMilli(), IsExclusive: end.IsExclusive},
 	}
 }
 
-func formatNumberRangeToDateRange(numberRange RangeNumber[int64]) RangeTime {
+func formatNumberRangeToDateRange(numberRange NumberRange[int64]) DateTimeRange {
 	start := numberRange[0]
 	end := numberRange[1]
-	var timeRange RangeTime
-	timeRange[0].IsExclusive = start.IsExclusive
-	timeRange[1].IsExclusive = end.IsExclusive
+	var dateTimeRange DateTimeRange
+	dateTimeRange[0].IsExclusive = start.IsExclusive
+	dateTimeRange[1].IsExclusive = end.IsExclusive
 	if start.Value != leftInfinityTimestamp {
-		timeRange[0].Value = time.UnixMilli(start.Value)
+		dateTimeRange[0].Value = time.UnixMilli(start.Value)
 	}
 	if end.Value != rightInfinityTimestamp {
-		timeRange[1].Value = time.UnixMilli(end.Value)
+		dateTimeRange[1].Value = time.UnixMilli(end.Value)
 	}
-	return timeRange
+	return dateTimeRange
 }
