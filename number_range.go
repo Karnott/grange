@@ -1,6 +1,23 @@
 package grange
 
+import "fmt"
+
 type RangeNumber[K Number] Range[K]
+
+func (r RangeNumber[K]) ToPostgresString() (string, string, string) {
+	start := r[0]
+	end := r[1]
+	startBoundString := "["
+	endBoundString := "]"
+	if start.IsExclusive {
+		startBoundString = "("
+	}
+	if end.IsExclusive {
+		endBoundString = ")"
+	}
+
+	return fmt.Sprintf("%v", start.Value), fmt.Sprintf("%v", end.Value), startBoundString + endBoundString
+}
 
 func (r RangeNumber[K]) Intersection(r1 RangeNumber[K]) *RangeNumber[K] {
 	return intersection(r, r1)

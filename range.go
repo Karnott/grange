@@ -27,6 +27,7 @@ type RangeTypes interface {
 type RangeInterface[K RangeTypes] interface {
 	Intersection(K) *K
 	IsEmpty() bool
+	ToPostgresString() (string, string, string) // return lowerBound, upperBound, inclusivity/exclusivity of bounds for postgres
 }
 
 func Intersection[K RangeTypes](t RangeInterface[K], t1 K) *K {

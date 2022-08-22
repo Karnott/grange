@@ -14,6 +14,29 @@ var (
 	rightInfinityDate      = time.UnixMilli(rightInfinityTimestamp)
 )
 
+func (r RangeTime) ToPostgresString() (string, string, string) {
+	fromDateString := "-infinity"
+	toDateString := "infinity"
+	fromDate := r[0]
+	toDate := r[1]
+	if !fromDate.Value.IsZero() {
+		fromDateString = fromDate.Value.Format(time.RFC3339)
+	}
+	if !toDate.Value.IsZero() {
+		toDateString = toDate.Value.Format(time.RFC3339)
+	}
+	fromDateBoundString := "["
+	toDateBoundString := "]"
+	if fromDate.IsExclusive {
+		fromDateBoundString = "("
+	}
+	if toDate.IsExclusive {
+		toDateBoundString = ")"
+	}
+
+	return fromDateString, toDateString, fromDateBoundString + toDateBoundString
+}
+
 // date.IsZero() is considered as `-infinty` for fromDate & `infinity` for toDate
 // infinity var are defined as leftInfinityDate and rightInfinityDate
 func (r RangeTime) Intersection(r1 RangeTime) *RangeTime {
