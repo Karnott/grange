@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.0.1](https://www.github.com/Karnott/grange/compare/v2.0.0...v2.0.1) (2022-08-22)
+
+
+### Bug Fixes
+
+* update doc for 'v2+' module strategy ([19a4944](https://www.github.com/Karnott/grange/commit/19a4944837ed0336671678764e322e670d745442))
+
 ## [2.0.0](https://www.github.com/Karnott/grange/compare/v1.1.0...v2.0.0) (2022-08-22)
 
 
