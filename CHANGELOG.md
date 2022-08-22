@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/Karnott/grange/compare/v1.1.0...v2.0.0) (2022-08-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **range:** rename RangeTime into DateTimeRange and RangeNumber into NumberRange (README)
+
+### Code Refactoring
+
+* **range:** rename RangeTime into DateTimeRange and RangeNumber into NumberRange (README) ([feccd0b](https://www.github.com/Karnott/grange/commit/feccd0b2b88b6cecf57e476b122caac707b2c64a))
+
 ## [1.1.0](https://www.github.com/Karnott/grange/compare/v1.0.1...v1.1.0) (2022-08-22)
 
 
