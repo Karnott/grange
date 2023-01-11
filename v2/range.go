@@ -26,10 +26,15 @@ type RangeTypes interface {
 
 type RangeInterface[K RangeTypes] interface {
 	Intersection(K) *K
+	Difference(K) []K
 	IsEmpty() bool
 	ToPostgresString() (string, string, string) // return lowerBound, upperBound, inclusivity/exclusivity of bounds for postgres
 }
 
 func Intersection[K RangeTypes](t RangeInterface[K], t1 K) *K {
 	return t.Intersection(t1)
+}
+
+func Difference[K RangeTypes](t RangeInterface[K], t1 K) []K {
+	return t.Difference(t1)
 }

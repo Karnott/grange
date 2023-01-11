@@ -150,3 +150,75 @@ func TestExclusiveIntersectionForTimeRange(t *testing.T) {
 		assert.True(t, expectedIntersectionRange[1].IsExclusive)
 	})
 }
+
+func TestDifferenceForTimeRange(t *testing.T) {
+	t.Run("expect difference between same ranges with one of the bounds is exclusive", func(t *testing.T) {
+		now := time.Now()
+		range1 := DateTimeRange{
+			{Value: now.Add(-10 * time.Hour).Truncate(time.Minute)},
+			{Value: now.Add(-5 * time.Hour).Truncate(time.Minute), IsExclusive: true},
+		}
+		range2 := DateTimeRange{
+			{Value: now.Add(-10 * time.Hour).Truncate(time.Minute)},
+			{Value: now.Add(-5 * time.Hour).Truncate(time.Minute)},
+		}
+		diffRange := range1.Difference(range2)
+		assert.Equal(t, 1, len(diffRange))
+		assert.True(t, diffRange[0][0].Value.Equal(range2[1].Value))
+		assert.True(t, diffRange[0][1].Value.Equal(range2[1].Value))
+	})
+
+	t.Run("expect difference with second range includes in first range", func(t *testing.T) {
+		// 1. --------------
+		// 2.    ------
+		range1 := DateTimeRange{
+			{Value: time.Now().Add(-10 * time.Hour).Truncate(time.Minute)},
+			{Value: time.Now().Add(-5 * time.Hour).Truncate(time.Minute)},
+		}
+		range2 := DateTimeRange{
+			{Value: time.Now().Add(-7 * time.Hour).Truncate(time.Minute)},
+			{Value: time.Now().Add(-6 * time.Hour).Truncate(time.Minute)},
+		}
+		diffRange := range1.Difference(range2)
+		expectedDifferenceRange := []DateTimeRange{
+			{range1[0], range2[0]},
+			{range2[1], range1[1]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.True(t, diffRange[0][0].Value.Equal(expectedDifferenceRange[0][0].Value))
+		assert.True(t, diffRange[0][1].Value.Equal(expectedDifferenceRange[0][1].Value))
+		assert.True(t, diffRange[1][0].Value.Equal(expectedDifferenceRange[1][0].Value))
+		assert.True(t, diffRange[1][1].Value.Equal(expectedDifferenceRange[1][1].Value))
+
+		diffRange = range2.Difference(range1)
+		assert.Equal(t, 0, len(diffRange))
+	})
+
+	t.Run("expect difference with 2 ranges in intersection", func(t *testing.T) {
+		// 1. --------------
+		// 2.            ------
+		range1 := DateTimeRange{
+			{Value: time.Now().Add(-10 * time.Hour).Truncate(time.Minute)},
+			{Value: time.Now().Add(-6 * time.Hour).Truncate(time.Minute)},
+		}
+		range2 := DateTimeRange{
+			{Value: time.Now().Add(-7 * time.Hour).Truncate(time.Minute)},
+			{Value: time.Now().Add(-3 * time.Hour).Truncate(time.Minute)},
+		}
+		diffRange := range1.Difference(range2)
+		expectedDifferenceRange := []DateTimeRange{
+			{range1[0], range2[0]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.True(t, diffRange[0][0].Value.Equal(expectedDifferenceRange[0][0].Value))
+		assert.True(t, diffRange[0][1].Value.Equal(expectedDifferenceRange[0][1].Value))
+
+		diffRange = range2.Difference(range1)
+		expectedDifferenceRange = []DateTimeRange{
+			{range1[1], range2[1]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.Equal(t, diffRange[0][0].Value, expectedDifferenceRange[0][0].Value)
+		assert.Equal(t, diffRange[0][1].Value, expectedDifferenceRange[0][1].Value)
+	})
+}
