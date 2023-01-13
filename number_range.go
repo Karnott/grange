@@ -35,3 +35,7 @@ func formatEmptyExclusiveRange[K Number](r RangeNumber[K]) *RangeNumber[K] {
 	}
 	return &r
 }
+
+func (r RangeNumber[K]) Difference(r1 RangeNumber[K]) []RangeNumber[K] {
+	return diff(r, r1)
+}

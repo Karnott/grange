@@ -106,3 +106,81 @@ func TestExclusiveIntersectionForNumberRange(t *testing.T) {
 		assert.Nil(t, intersectionRange)
 	})
 }
+
+func TestDifferenceForNumberRange(t *testing.T) {
+	t.Run("expect difference between same ranges with one of the bounds is exclusive", func(t *testing.T) {
+		range1 := RangeNumber[int]{
+			{Value: 0}, {Value: 20},
+		}
+		range2 := RangeNumber[int]{
+			{Value: 0}, {Value: 20, IsExclusive: true},
+		}
+		diffRange := range1.Difference(range2)
+		expectedDifferenceRange := []RangeNumber[int]{
+			{range1[1], range1[1]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.Equal(t, diffRange[0][0].Value, expectedDifferenceRange[0][0].Value)
+		assert.Equal(t, diffRange[0][1].Value, expectedDifferenceRange[0][1].Value)
+		assert.False(t, diffRange[0][0].IsExclusive)
+		assert.False(t, diffRange[0][1].IsExclusive)
+
+		diffRange = range2.Difference(range1)
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.Equal(t, diffRange[0][0].Value, expectedDifferenceRange[0][0].Value)
+		assert.Equal(t, diffRange[0][1].Value, expectedDifferenceRange[0][1].Value)
+		assert.False(t, diffRange[0][0].IsExclusive)
+		assert.False(t, diffRange[0][1].IsExclusive)
+	})
+
+	t.Run("expect difference with second range includes in first range", func(t *testing.T) {
+		// 1. --------------
+		// 2.    ------
+		range1 := RangeNumber[int]{
+			{Value: 0}, {Value: 20},
+		}
+		range2 := RangeNumber[int]{
+			{Value: 10}, {Value: 15},
+		}
+		diffRange := range1.Difference(range2)
+		expectedDifferenceRange := []RangeNumber[int]{
+			{range1[0], range2[0]},
+			{range2[1], range1[1]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.Equal(t, diffRange[0][0].Value, expectedDifferenceRange[0][0].Value)
+		assert.Equal(t, diffRange[0][1].Value, expectedDifferenceRange[0][1].Value)
+		assert.Equal(t, diffRange[1][0].Value, expectedDifferenceRange[1][0].Value)
+		assert.Equal(t, diffRange[1][1].Value, expectedDifferenceRange[1][1].Value)
+
+		diffRange = range2.Difference(range1)
+		assert.Equal(t, 0, len(diffRange))
+	})
+
+	t.Run("expect difference with 2 ranges in intersection", func(t *testing.T) {
+		// 1. --------------
+		// 2.   		 ------
+		range1 := RangeNumber[int]{
+			{Value: 0}, {Value: 20},
+		}
+		range2 := RangeNumber[int]{
+			{Value: 10}, {Value: 30},
+		}
+		diffRange := range1.Difference(range2)
+		expectedDifferenceRange := []RangeNumber[int]{
+			{range1[0], range2[0]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.Equal(t, diffRange[0][0].Value, expectedDifferenceRange[0][0].Value)
+		assert.Equal(t, diffRange[0][1].Value, expectedDifferenceRange[0][1].Value)
+
+		diffRange = range2.Difference(range1)
+		expectedDifferenceRange = []RangeNumber[int]{
+			{range1[1], range2[1]},
+		}
+		assert.Equal(t, len(diffRange), len(expectedDifferenceRange))
+		assert.Equal(t, diffRange[0][0].Value, expectedDifferenceRange[0][0].Value)
+		assert.Equal(t, diffRange[0][1].Value, expectedDifferenceRange[0][1].Value)
+	})
+
+}

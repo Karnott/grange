@@ -94,3 +94,18 @@ func formatNumberRangeToDateRange(numberRange NumberRange[int64]) DateTimeRange 
 	}
 	return dateTimeRange
 }
+
+func (r DateTimeRange) Difference(r1 DateTimeRange) []DateTimeRange {
+	var differenceResult = diff(
+		r.formatToNumberRange(),
+		r1.formatToNumberRange(),
+	)
+	if len(differenceResult) == 0 {
+		return nil
+	}
+	diffDateTimeRange := make([]DateTimeRange, 0)
+	for _, rangeNumber := range differenceResult {
+		diffDateTimeRange = append(diffDateTimeRange, formatNumberRangeToDateRange(rangeNumber))
+	}
+	return diffDateTimeRange
+}

@@ -40,3 +40,19 @@ func TestIntersectionForRangeInterfaceWithNumberType(t *testing.T) {
 	assert.Equal(t, expectedIntersectionRange[0].Value, intersectionRange[0].Value)
 	assert.Equal(t, expectedIntersectionRange[1].Value, intersectionRange[1].Value)
 }
+
+func TestDifferenceForRangeInterfaceWithNumberType(t *testing.T) {
+	range1 := NumberRange[int]{
+		{Value: 0}, {Value: 20},
+	}
+	range2 := NumberRange[int]{
+		{Value: -10}, {Value: 10},
+	}
+	differenceRange := Difference[NumberRange[int]](range1, range2)
+	expectedDifferenceRange := []NumberRange[int]{
+		{range2[1],
+			range1[1]},
+	}
+	assert.Equal(t, expectedDifferenceRange[0][0].Value, differenceRange[0][0].Value)
+	assert.Equal(t, expectedDifferenceRange[0][1].Value, differenceRange[0][1].Value)
+}
