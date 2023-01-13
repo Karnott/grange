@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://www.github.com/Karnott/grange/compare/v2.0.1...v2.1.0) (2023-01-13)
+
+
+### Features
+
+* create diff functionnality v1 ([ff5587a](https://www.github.com/Karnott/grange/commit/ff5587a825cf4cb7d88ee24544b165c628741702))
+* create diff functionnality v2 ([0449668](https://www.github.com/Karnott/grange/commit/044966815703da5a36e0fdb44356426d59e984e9))
+
 ### [2.0.1](https://www.github.com/Karnott/grange/compare/v2.0.0...v2.0.1) (2022-08-22)
 
 
